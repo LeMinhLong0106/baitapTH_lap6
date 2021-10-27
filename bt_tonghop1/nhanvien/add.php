@@ -183,19 +183,21 @@ require('../db/connect.php');
                         </select>
                     </div>
 
-                    <button class="btn btn-success">Lưu</button>
+                    <button class="btn btn-success">Thêm</button>
                     <button class="comeback">
                         <a href="javascript:window.history.back(-1);">Quay lại</a>
                     </button>
                 </form>
             </div>
-            <?php
-            if (count($errors) > 0) {
-                foreach ($errors as $er) {
-                    echo $er . "<br>";
+            <div style="text-align: center;color: red;font-weight: bold;">
+                <?php
+                if (count($errors) > 0) {
+                    foreach ($errors as $er) {
+                        echo $er . "<br>";
+                    }
                 }
-            }
-            ?>
+                ?>
+            </div>
         </div>
     </div>
 

@@ -34,7 +34,7 @@ require_once('../db/connect.php');
 
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $errors = array(); //khởi tạo 1 mảng chứa lỗi
-        //kiểm tra tên sản phẩm
+        //kiểm tra tên 
         if (empty($_POST['tenphong'])) {
             $errors[] = "Bạn chưa nhập tên phòng";
         } else {
@@ -49,10 +49,9 @@ require_once('../db/connect.php');
             // khi bấm nút lưu thì quay lại trang index
             header('Location: index.php');
             die();
-        } 
+        }
     }
     ?>
-
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a class="nav-link active" href="#">Phòng</a>
@@ -88,13 +87,15 @@ require_once('../db/connect.php');
                 </form>
 
             </div>
-            <?php
-            if (count($errors) > 0) {
-                foreach ($errors as $er) {
-                    echo $er . "<br>";
+            <div style="text-align: center;color: red;font-weight: bold;">
+                <?php
+                if (count($errors) > 0) {
+                    foreach ($errors as $er) {
+                        echo $er . "<br>";
+                    }
                 }
-            }
-            ?>
+                ?>
+            </div>
         </div>
     </div>
 

@@ -5,7 +5,7 @@ require_once('../db/connect.php');
 <html>
 
 <head>
-    <title>Xóa loại nhân viên</title>
+    <title>Xóa Danh Mục Phòng</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
@@ -21,11 +21,11 @@ require_once('../db/connect.php');
 
 <body>
     <?php
-    $maloai = $tentl = "";
+    $maphong = $tenphong = "";
     $errors = [];
-    if (isset($_GET['maloai'])) {
-        $maloai       = $_GET['maloai'];
-        $sql      = "select * from loainv where maloai = '$maloai'";
+    if (isset($_GET['maphong'])) {
+        $maphong       = $_GET['maphong'];
+        $sql      = "select * from phongban where maphong = '$maphong'";
 
         // $category = executeSingleResult($sql);
         $result = mysqli_query($connect, $sql);
@@ -33,8 +33,7 @@ require_once('../db/connect.php');
         if ($result != null) {
             $row    = mysqli_fetch_array($result, 1);
         }
-
-        $tentl = $row['tentl'];
+        $tenphong = $row['tenphong'];
     }
 
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -44,20 +43,20 @@ require_once('../db/connect.php');
 
         $flag = true; // giả định không trùng mã
         foreach ($nhanvienList as $m) {
-            if ($maloai == $m['maloai']) {
+            if ($maphong == $m['maphong']) {
                 $flag = false;
                 break;
             }
         }
         if ($flag == true) {
-            $query = "DELETE from loainv WHERE maloai = '$maloai'";
+            $query = "DELETE from phongban WHERE maphong = '$maphong'";
             // DELETE FROM `phongban` WHERE `phongban`.`maphong` = 'a';
             $result = mysqli_query($connect, $query);
             // khi bấm nút lưu thì quay lại trang index
             header('Location: index.php');
             die();
         } else {
-            array_push($errors, "Mã loại nhân viên đã tồn tại trong bảng nhân viên, không thể xóa được");
+            array_push($errors, "Mã phòng tồn tại trong bảng nhân viên, không thể xóa được");
         }
     }
 
@@ -84,12 +83,12 @@ require_once('../db/connect.php');
                 <form method="post">
                     <div class="form-group">
                         <label>Mã phòng:</label>
-                        <input readonly required="true" type="text" class="form-control" name="maloai" value="<?php echo $maloai ?>">
+                        <input readonly type="text" class="form-control" name="maphong" value="<?php echo $maphong ?>">
                     </div>
 
                     <div class="form-group">
                         <label>Tên phòng:</label>
-                        <input required="true" type="text" class="form-control" name="tentl" value="<?php echo $tentl ?>">
+                        <input readonly type="text" class="form-control" name="tenphong" value="<?php echo $tenphong ?>">
                     </div>
                     <button class="btn btn-success">Xóa</button>
                     <button class="comeback">
@@ -98,13 +97,15 @@ require_once('../db/connect.php');
                 </form>
 
             </div>
-            <?php
-            if (count($errors) > 0) {
-                foreach ($errors as $er) {
-                    echo $er . "<br>";
+            <div style="text-align: center;color: red;font-weight: bold;">
+                <?php
+                if (count($errors) > 0) {
+                    foreach ($errors as $er) {
+                        echo $er . "<br>";
+                    }
                 }
-            }
-            ?>
+                ?>
+            </div>
         </div>
     </div>
 

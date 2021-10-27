@@ -118,7 +118,7 @@ session_start();
                                     <a href="edit.php?maloai=' . $item['maloai'] . '"><button class="btn btn-warning">Sửa</button></a>
                                 </td>
                                 <td>
-                                	
+									<a href="delete.php?maloai=' . $item['maloai'] . '"><button class="btn btn-danger">Xóa</button></a>
                                 </td>
                             </tr>';
 							}

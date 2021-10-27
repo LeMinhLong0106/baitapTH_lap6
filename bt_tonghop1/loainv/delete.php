@@ -5,7 +5,7 @@ require_once('../db/connect.php');
 <html>
 
 <head>
-    <title>Sửa loại nhân viên</title>
+    <title>Xóa loại nhân viên</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
@@ -22,43 +22,10 @@ require_once('../db/connect.php');
 <body>
     <?php
     $maloai = $tentl = "";
-
-    if ($_SERVER['REQUEST_METHOD'] == "POST") {
-        $errors = array(); //khởi tạo 1 mảng chứa lỗi
-        //kiem tra ma sua
-        if (empty($_POST['maloai'])) {
-            $errors[] = "Bạn chưa nhập mã loại";
-        } else {
-            $maloai = trim($_POST['maloai']);
-        }
-        //kiểm tra tên sản phẩm
-        if (empty($_POST['tentl'])) {
-            $errors[] = "Bạn chưa nhập tên loại nhân viên";
-        } else {
-            $tentl = trim($_POST['tentl']);
-        }
-
-        if (empty($errors)) //neu khong co loi xay ra
-        {
-            $query = "UPDATE loainv SET tentl = '$tentl' WHERE maloai = '$maloai'";
-
-            $result = mysqli_query($connect, $query);
-            // khi bấm nút lưu thì quay lại trang index
-            header('Location: index.php');
-            die();
-        } else { //neu co loi
-            echo "<h2>Lỗi</h2><p>Có lỗi xảy ra:<br/>";
-            foreach ($errors as $msg) {
-                echo "- $msg<br /><\n>";
-            }
-            echo "</p><p>Hãy thử lại.</p>";
-        }
-    }
-    // mysqli_close($connect);
-
+    $errors = [];
     if (isset($_GET['maloai'])) {
         $maloai       = $_GET['maloai'];
-        $sql      = "select * from loainv where maloai = '$maloai'" ;
+        $sql      = "select * from loainv where maloai = '$maloai'";
 
         // $category = executeSingleResult($sql);
         $result = mysqli_query($connect, $sql);
@@ -66,7 +33,32 @@ require_once('../db/connect.php');
         if ($result != null) {
             $row    = mysqli_fetch_array($result, 1);
         }
+
         $tentl = $row['tentl'];
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] == "POST") {
+        $sql = 'select * from nhanvien ';
+
+        $nhanvienList = executeResult($sql);
+
+        $flag = true; // giả định không trùng mã
+        foreach ($nhanvienList as $m) {
+            if ($maloai == $m['maloai']) {
+                $flag = false;
+                break;
+            }
+        }
+        if ($flag == true) {
+            $query = "DELETE from loainv WHERE maloai = '$maloai'";
+            // DELETE FROM `phongban` WHERE `phongban`.`maphong` = 'a';
+            $result = mysqli_query($connect, $query);
+            // khi bấm nút lưu thì quay lại trang index
+            header('Location: index.php');
+            die();
+        } else {
+            array_push($errors, "Mã loại nhân viên đã tồn tại trong bảng nhân viên, không thể xóa được");
+        }
     }
 
     ?>
@@ -86,25 +78,34 @@ require_once('../db/connect.php');
     <div class="container">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h2 class="text-center">Sửa loại nhân viên</h2>
+                <h2 class="text-center">Xóa Phòng</h2>
             </div>
             <div class="panel-body">
                 <form method="post">
                     <div class="form-group">
-                        <label>Mã loại nhân viên:</label>
+                        <label>Mã phòng:</label>
                         <input readonly required="true" type="text" class="form-control" name="maloai" value="<?php echo $maloai ?>">
                     </div>
 
                     <div class="form-group">
-                        <label>Tên loại nhân viên:</label>
+                        <label>Tên phòng:</label>
                         <input required="true" type="text" class="form-control" name="tentl" value="<?php echo $tentl ?>">
                     </div>
-                    <button class="btn btn-success">Lưu</button>
+                    <button class="btn btn-success">Xóa</button>
                     <button class="comeback">
                         <a href="javascript:window.history.back(-1);">Quay lại</a>
                     </button>
                 </form>
 
+            </div>
+            <div style="text-align: center;color: red;font-weight: bold;">
+                <?php
+                if (count($errors) > 0) {
+                    foreach ($errors as $er) {
+                        echo $er . "<br>";
+                    }
+                }
+                ?>
             </div>
         </div>
     </div>

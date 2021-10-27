@@ -200,13 +200,15 @@ require_once('../db/connect.php');
                 </form>
 
             </div>
-            <?php
-            if (count($errors) > 0) {
-                foreach ($errors as $er) {
-                    echo $er . "<br>";
+            <div style="text-align: center;color: red;font-weight: bold;">
+                <?php
+                if (count($errors) > 0) {
+                    foreach ($errors as $er) {
+                        echo $er . "<br>";
+                    }
                 }
-            }
-            ?>
+                ?>
+            </div>
         </div>
     </div>
 
