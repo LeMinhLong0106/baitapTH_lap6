@@ -144,7 +144,7 @@ require('../db/connect.php');
 
                     <div class="form-group">
                         <label>Ảnh:</label>
-                        <input type="file" name="anh" value="<?= $ten_hinh ?>">
+                        <input required type="file" name="anh" value="<?= $ten_hinh ?>">
                     </div>
 
                     <div class="form-group">
