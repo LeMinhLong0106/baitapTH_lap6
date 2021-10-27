@@ -30,7 +30,7 @@ create table nhanvien (
 
 create table user (
 	username varchar(50) not null primary key,
-    passwork varchar(50) not null
+    passwords varchar(50) not null
 );
 
 
@@ -55,7 +55,7 @@ INSERT INTO NHANVIEN (manv, honv, tennv, ngaysinh, gioitinh,  diachi, anh, maloa
 ('NV04', 'Mang', 'Bảo', 1, '2000-01-13', 'Cam Ranh', 'anhnv4.png', 'LNV04', 'PB04');
 
 
-INSERT INTO user (username, passwork)
+INSERT INTO user (username, passwords)
 VALUES
 ('thanhha@gmail.com', '123456'),
 ('vantri@gmail.com', '123456'),
